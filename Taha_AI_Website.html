@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taha Hafeez | Artificial Intelligence</title>
+<style>
+  :root { --bg:#090d1d; --panel:rgba(20,27,54,.78); --text:#f5f7ff; --muted:#b7c0df; --cyan:#66e3ff; --violet:#a78bfa; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; min-height:100%; background:var(--bg); color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+  body { overflow:hidden; }
+  .aurora { position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse at 15% 20%,rgba(65,94,220,.25),transparent 42%),radial-gradient(ellipse at 85% 80%,rgba(160,76,255,.20),transparent 38%),linear-gradient(135deg,#090d1d,#10162b 60%,#0a1022); }
+  .orb { position:fixed; border-radius:50%; filter:blur(2px); opacity:.25; animation:float 12s ease-in-out infinite; pointer-events:none; }
+  .orb.one { width:230px;height:230px;top:8%;right:8%;background:#5ee7ff; }
+  .orb.two { width:180px;height:180px;bottom:6%;left:4%;background:#9c70ff;animation-delay:-5s; }
+  @keyframes float { 0%,100%{transform:translateY(0) translateX(0)}50%{transform:translateY(-25px) translateX(15px)} }
+  header { position:fixed; z-index:5; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:18px clamp(18px,4vw,52px); border-bottom:1px solid rgba(255,255,255,.09); backdrop-filter:blur(15px); background:rgba(7,10,24,.35); }
+  .brand { display:flex; align-items:center; gap:10px; font-size:13px; font-weight:800; letter-spacing:.14em; }
+  .brand-icon { display:grid; place-items:center; width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#0a1022;font-size:17px; }
+  .counter { color:var(--muted);font-size:13px;letter-spacing:.08em; }
+  .counter strong { color:white; }
+  main { position:relative;z-index:1;height:100svh;display:grid;place-items:center;padding:90px 22px 92px; }
+  .slide { display:none; width:min(100%,1000px); max-height:100%; overflow:auto; animation:enter .55s cubic-bezier(.2,.8,.2,1); }
+  .slide.active { display:block; }
+  @keyframes enter { from{opacity:0;transform:translateY(18px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)} }
+  .eyebrow { display:inline-flex;align-items:center;gap:9px;color:var(--cyan);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:22px; }
+  .eyebrow:before { content:"";width:25px;height:2px;background:var(--cyan); }
+  h1,h2,p { margin-top:0; }
+  h1 { font-size:clamp(44px,8vw,88px);line-height:.99;letter-spacing:-.065em;margin-bottom:24px;max-width:850px; }
+  h1 span,.gradient { background:linear-gradient(100deg,#fff 10%,var(--cyan) 48%,#b9a4ff 85%);-webkit-background-clip:text;background-clip:text;color:transparent; }
+  h2 { font-size:clamp(30px,5vw,54px);line-height:1.05;letter-spacing:-.045em;margin-bottom:18px; }
+  .lead { color:#d5dcf7;font-size:clamp(17px,2vw,21px);line-height:1.65;max-width:720px; }
+  .tiny { color:var(--muted);font-size:13px;line-height:1.6; }
+  .hero-grid { display:grid;grid-template-columns:1.15fr .85fr;gap:38px;align-items:center; }
+  .hero-art { min-height:310px;display:grid;place-items:center;position:relative; }
+  .brain { width:min(270px,70vw);aspect-ratio:1;border-radius:42% 58% 52% 48%;display:grid;place-items:center;font-size:clamp(95px,15vw,150px);background:radial-gradient(circle at 35% 30%,rgba(102,227,255,.28),rgba(167,139,250,.12) 55%,rgba(255,255,255,.02));border:1px solid rgba(160,210,255,.35);box-shadow:0 0 80px rgba(102,227,255,.12),inset 0 0 45px rgba(167,139,250,.12);animation:pulse 5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{transform:rotate(-4deg) scale(1)}50%{transform:rotate(4deg) scale(1.035)} }
+  .orbit { position:absolute;width:320px;height:130px;border:1px solid rgba(102,227,255,.35);border-radius:50%;transform:rotate(-30deg); }
+  .orbit.two { transform:rotate(55deg);border-color:rgba(167,139,250,.4);width:290px;height:155px; }
+  .chips { display:flex;flex-wrap:wrap;gap:10px;margin-top:25px; }
+  .chip { padding:9px 13px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(255,255,255,.04);color:#dce5ff;font-size:12px; }
+  .cards { display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:28px; }
+  .card { padding:22px;border:1px solid rgba(255,255,255,.12);background:var(--panel);border-radius:20px;backdrop-filter:blur(12px);transition:transform .25s,border-color .25s; }
+  .card:hover { transform:translateY(-5px);border-color:rgba(102,227,255,.55); }
+  .card .emoji { font-size:28px;margin-bottom:18px;display:block; }
+  .card h3 { font-size:18px;margin:0 0 10px; }
+  .card p { color:var(--muted);font-size:14px;line-height:1.65;margin:0; }
+  .split { display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:25px; }
+  .list-panel { padding:23px;border-radius:20px;background:var(--panel);border:1px solid rgba(255,255,255,.12); }
+  .list-panel h3 { margin:0 0 16px;font-size:19px; }
+  .item { display:flex;gap:12px;margin:13px 0;color:#dce3fa;line-height:1.55;font-size:15px; }
+  .dot { flex:0 0 22px;height:22px;border-radius:7px;display:grid;place-items:center;background:rgba(102,227,255,.13);color:var(--cyan);font-size:12px;font-weight:900; }
+  .warn .dot { background:rgba(251,191,36,.12);color:#fcd34d; }
+  .quote { margin-top:25px;padding:22px 25px;border-left:3px solid var(--cyan);background:rgba(102,227,255,.06);border-radius:0 14px 14px 0;color:#e8efff;font-size:18px;line-height:1.6; }
+  .steps { display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:30px; }
+  .step { border-top:2px solid var(--violet);padding:17px 15px;background:rgba(255,255,255,.035);border-radius:0 0 14px 14px; }
+  .step b { display:block;color:var(--cyan);font-size:12px;letter-spacing:.1em;margin-bottom:12px; }
+  .step strong { display:block;margin-bottom:8px; }
+  .step p { color:var(--muted);font-size:13px;line-height:1.55;margin:0; }
+  .end-card { padding:clamp(26px,5vw,52px);border-radius:28px;background:linear-gradient(130deg,rgba(102,227,255,.11),rgba(167,139,250,.11));border:1px solid rgba(255,255,255,.15); }
+  footer { position:fixed;z-index:5;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:16px clamp(18px,4vw,52px);background:rgba(7,10,24,.55);backdrop-filter:blur(15px);border-top:1px solid rgba(255,255,255,.08); }
+  .progress-wrap { display:flex;align-items:center;gap:12px;flex:1;max-width:370px; }
+  .progress { height:4px;border-radius:99px;background:rgba(255,255,255,.13);overflow:hidden;flex:1; }
+  .progress-fill { width:12.5%;height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet));transition:width .35s; }
+  .nav { display:flex;gap:9px; }
+  button { cursor:pointer;color:white;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);border-radius:12px;padding:11px 15px;font-weight:700;font-size:13px;transition:background .2s,transform .2s; }
+  button:hover { background:rgba(102,227,255,.15);transform:translateY(-1px); }
+  button.primary { color:#081020;background:linear-gradient(100deg,var(--cyan),#b9a4ff);border:0; }
+  button:disabled { opacity:.35;cursor:not-allowed;transform:none; }
+  .keyboard { color:#8f9abe;font-size:11px; }
+  @media(max-width:760px) {
+    body{overflow:auto}.hero-grid{grid-template-columns:1fr}.hero-art{min-height:210px;order:-1}.brain{width:175px}.orbit{width:230px;height:95px}.orbit.two{width:220px;height:110px}
+    .cards{grid-template-columns:1fr}.card{padding:17px}.split{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}main{height:auto;min-height:100svh;padding-top:95px;padding-bottom:100px}.slide{max-height:none}.counter{font-size:11px}.keyboard{display:none}footer{position:fixed}
+  }
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="aurora"></div><div class="orb one"></div><div class="orb two"></div>
+<header>
+  <div class="brand"><span class="brand-icon">✦</span> FUTURE / INTELLIGENCE</div>
+  <div class="counter"><strong id="current">01</strong> <span style="opacity:.5">/</span> <span id="total">08</span></div>
+</header>
+<main>
+  <section class="slide active">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">A new era of innovation</div>
+        <h1>Artificial<br><span>Intelligence</span></h1>
+        <p class="lead">How machines learn, solve problems, and help shape the world around us.</p>
+        <div class="chips"><span class="chip">🤖 Smart systems</span><span class="chip">🧠 Machine learning</span><span class="chip">🌐 Our future</span></div>
+        <p class="tiny" style="margin-top:28px">Presented by: <strong style="color:white">Taha Hafeez</strong><br><span style="display:inline-block;margin-top:8px">Course: <strong style="color:white">Web Development</strong> · University: <strong style="color:white">GCWUF</strong></span><br><span style="display:inline-block;margin-top:6px">Faisalabad, Pakistan</span></p>
+      </div>
+      <div class="hero-art"><div class="orbit"></div><div class="orbit two"></div><div class="brain">🧠</div></div>
+    </div>
+  </section>
+  <section class="slide">
+    <div class="eyebrow">01 / The big idea</div><h2>What is <span class="gradient">AI?</span></h2>
+    <p class="lead">Artificial Intelligence (AI) is technology that enables computers to perform tasks that usually require human-like abilities, such as recognizing patterns, understanding language, and making predictions.</p>
+    <div class="cards">
+      <article class="card"><span class="emoji">📚</span><h3>Learn from data</h3><p>AI systems can find patterns in examples and use them to improve a task.</p></article>
+      <article class="card"><span class="emoji">🔎</span><h3>Recognize patterns</h3><p>AI can help identify objects in images, speech in audio, or trends in information.</p></article>
+      <article class="card"><span class="emoji">🧩</span><h3>Support decisions</h3><p>AI can suggest options or predictions, while people remain responsible for decisions.</p></article>
+    </div>
+    <div class="quote">AI is a tool built by people. It can be powerful, but it does not think or understand exactly like a human.</div>
+  </section>
+  <section class="slide">
+    <div class="eyebrow">02 / How it works</div><h2>From data to <span class="gradient">results</span></h2>
+    <p class="lead">Many AI systems are trained on examples. During training, a model learns patterns that help it produce a prediction, recommendation, or response.</p>
+    <div class="steps">
+      <div class="step"><b>STEP 01</b><strong>Collect data</strong><p>Gather useful examples, while respecting privacy and permissions.</p></div>
+      <div class="step"><b>STEP 02</b><strong>Train a model</strong><p>Algorithms adjust the model to learn patterns from those examples.</p></div>
+      <div class="step"><b>STEP 03</b><strong>Test it</strong><p>Check how well it works, including on examples it has not seen.</p></div>
+      <div class="step"><b>STEP 04</b><strong>Use responsibly</strong><p>Monitor results and let people review important decisions.</p></div>
+    </div>
+    <div class="quote">Example: a photo app may learn visual patterns from labelled images to help sort pictures by subject.</div>
+  </section>
+  <section class="slide">
+    <div class="eyebrow">03 / Everyday life</div><h2>AI is already <span class="gradient">around us</span></h2>
+    <p class="lead">You may use AI more often than you realize. Here are a few everyday examples.</p>
+    <div class="cards">
+      <article class="card"><span class="emoji">🗣️</span><h3>Voice assistants</h3><p>Recognize spoken requests and respond to questions or commands.</p></article>
+      <article class="card"><span class="emoji">🎬</span><h3>Recommendations</h3><p>Suggest videos, music, or products based on activity and preferences.</p></article>
+      <article class="card"><span class="emoji">🗺️</span><h3>Navigation</h3><p>Estimate travel times and help find routes using changing traffic data.</p></article>
+      <article class="card"><span class="emoji">🌐</span><h3>Translation</h3><p>Help translate text and speech between different languages.</p></article>
+      <article class="card"><span class="emoji">🩺</span><h3>Healthcare</h3><p>Assist trained professionals with tasks such as analysing medical images.</p></article>
+      <article class="card"><span class="emoji">🎓</span><h3>Education</h3><p>Offer explanations, practice questions, and learning support.</p></article>
+    </div>
+  </section>
+  <section class="slide">
+    <div class="eyebrow">04 / The opportunities</div><h2>Why does AI <span class="gradient">matter?</span></h2>
+    <div class="split">
+      <div class="list-panel"><h3>✨ Potential benefits</h3>
+        <div class="item"><span class="dot">✓</span><span>Automates repetitive tasks and can save time.</span></div>
+        <div class="item"><span class="dot">✓</span><span>Helps people explore large amounts of information.</span></div>
+        <div class="item"><span class="dot">✓</span><span>Can improve accessibility through captions and assistive tools.</span></div>
+        <div class="item"><span class="dot">✓</span><span>Supports research and helps generate new ideas.</span></div>
+      </div>
+      <div class="list-panel warn"><h3>⚠️ Challenges to consider</h3>
+        <div class="item"><span class="dot">!</span><span>AI can make mistakes or provide made-up information.</span></div>
+        <div class="item"><span class="dot">!</span><span>Biased data can lead to unfair outcomes.</span></div>
+        <div class="item"><span class="dot">!</span><span>Personal data and privacy need protection.</span></div>
+        <div class="item"><span class="dot">!</span><span>Some tasks and jobs may change as AI develops.</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="slide">
+    <div class="eyebrow">05 / Responsible use</div><h2>Use AI <span class="gradient">wisely</span></h2>
+    <p class="lead">The goal is not simply to use more AI. It is to use it thoughtfully, fairly, and safely.</p>
+    <div class="cards">
+      <article class="card"><span class="emoji">✅</span><h3>Verify facts</h3><p>Check important answers against trusted sources and your class materials.</p></article>
+      <article class="card"><span class="emoji">🔐</span><h3>Protect privacy</h3><p>Do not share passwords, private details, or someone else's personal information.</p></article>
+      <article class="card"><span class="emoji">🧑‍⚖️</span><h3>Keep humans involved</h3><p>Use human judgment for important choices and be honest about AI assistance.</p></article>
+    </div>
+    <div class="quote">Remember: AI can assist your thinking, but it should not replace your own understanding.</div>
+  </section>
+  <section class="slide">
+    <div class="eyebrow">06 / Looking ahead</div><h2>What could the <span class="gradient">future</span> bring?</h2>
+    <p class="lead">AI may become more useful in science, learning, accessibility, transport, and creative work. Its impact will depend on the choices people make today.</p>
+    <div class="split">
+      <div class="list-panel"><h3>Skills for the future</h3>
+        <div class="item"><span class="dot">1</span><span>Critical thinking: question and evaluate results.</span></div>
+        <div class="item"><span class="dot">2</span><span>Creativity: bring original ideas and perspectives.</span></div>
+        <div class="item"><span class="dot">3</span><span>Digital literacy: understand tools and their limits.</span></div>
+        <div class="item"><span class="dot">4</span><span>Empathy and teamwork: work well with people.</span></div>
+      </div>
+      <div class="list-panel"><h3>Key message</h3><p class="lead" style="font-size:20px">The future of AI is not only about smarter machines. It is also about responsible people making good choices.</p><p class="tiny">Progress should benefit people while reducing risks and unfairness.</p></div>
+    </div>
+  </section>
+  <section class="slide">
+    <div class="end-card">
+      <div class="eyebrow">Thank you</div><h2>Questions <span class="gradient">?</span></h2>
+      <p class="lead">Thank you for listening to my presentation on Artificial Intelligence.</p>
+      <div class="quote">“The best way to understand technology is to ask questions, test ideas, and keep learning.”</div>
+      <div class="chips"><span class="chip">💡 Stay curious</span><span class="chip">🧠 Think critically</span><span class="chip">🤝 Use AI responsibly</span></div>
+      <p class="tiny" style="margin-top:28px">Taha Hafeez · Web Development · GCWUF, Faisalabad, Pakistan</p>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="progress-wrap"><span class="tiny" id="sectionName">INTRODUCTION</span><div class="progress"><div class="progress-fill" id="fill"></div></div></div>
+  <span class="keyboard">Use ← → arrow keys</span>
+  <div class="nav"><button id="prev" aria-label="Previous slide">← Back</button><button class="primary" id="next">Next →</button></div>
+</footer>
+<script>
+const slides = [...document.querySelectorAll('.slide')];
+const labels = ['INTRODUCTION','WHAT IS AI?','HOW IT WORKS','EVERYDAY AI','BENEFITS & RISKS','RESPONSIBLE USE','THE FUTURE','Q&A'];
+let index = 0;
+const current = document.getElementById('current');
+const total = document.getElementById('total');
+const fill = document.getElementById('fill');
+const sectionName = document.getElementById('sectionName');
+const prev = document.getElementById('prev');
+const next = document.getElementById('next');
+total.textContent = String(slides.length).padStart(2,'0');
+function showSlide(nextIndex) {
+  index = Math.max(0, Math.min(slides.length - 1, nextIndex));
+  slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+  current.textContent = String(index + 1).padStart(2,'0');
+  fill.style.width = `${((index + 1) / slides.length) * 100}%`;
+  sectionName.textContent = labels[index];
+  prev.disabled = index === 0;
+  next.textContent = index === slides.length - 1 ? 'Restart ↻' : 'Next →';
+  if (index === slides.length - 1) next.classList.add('primary'); else next.classList.add('primary');
+}
+prev.addEventListener('click', () => showSlide(index - 1));
+next.addEventListener('click', () => showSlide(index === slides.length - 1 ? 0 : index + 1));
+document.addEventListener('keydown', event => {
+  if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') { event.preventDefault(); showSlide(index + 1); }
+  if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); showSlide(index - 1); }
+  if (event.key === 'Home') showSlide(0);
+  if (event.key === 'End') showSlide(slides.length - 1);
+});
+showSlide(0);
+</script>
+</body>
+</html>
